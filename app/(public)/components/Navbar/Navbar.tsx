@@ -16,7 +16,7 @@ import { links } from "./navbar.data"
 
 export function Navbar() {
   return (
-    <header className="w-full p-4 bg-gray-900 backdrop-blur sticky top-0 z-50">
+    <header className="w-full p-4 bg-indigo-900 backdrop-blur sticky top-0 z-50">
       <NavigationMenu className="w-full max-w-none px-6">
         <NavigationMenuList className="flex w-full gap-8 items-center justify-between">
 
