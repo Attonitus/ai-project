@@ -1,0 +1,12 @@
+services:
+  todosDB:
+    image: postgres:16
+    container_name: project-ai-db
+    restart: always
+    ports:
+      - 5450:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
