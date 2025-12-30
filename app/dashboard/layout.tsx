@@ -4,7 +4,7 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 
 export default function layout({ children }: React.PropsWithChildren) {
     return (
-        <div className="w-full min-h-screen bg-gray-800">
+        <div className="w-full min-h-screen bg-gray-950">
             <SidebarProvider>
 
                 <SidebarDashboard />
