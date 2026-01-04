@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server"
-import { MetricCard } from "./components";
+import { InterviewList, MetricCard } from "./components";
 import { CheckCircle, ClipboardCheck, Clock, TrendingUp } from "lucide-react";
 
 export default async function DashboardPage() {
@@ -69,6 +69,8 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
+
+      <InterviewList />
     </div>
   )
 }

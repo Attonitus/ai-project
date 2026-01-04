@@ -5,7 +5,12 @@ import {
 } from '@clerk/nextjs'
 
 import { Poppins } from "next/font/google";
+
 import "./globals.css";
+import { QueryProvider } from "./providers/QueryProvider";
+import { Toaster } from "@/components/ui/sonner"
+
+
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,18 +23,24 @@ export const metadata: Metadata = {
   description: "Aplicación para simular entrevistas tecnicas",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
+
 }>) {
+
   return (
     <ClerkProvider>
       <html lang="en">
         <body
           className={`${poppins.className} antialiased`}
         >
-          {children}
+          <QueryProvider>
+            {children}
+          </QueryProvider>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

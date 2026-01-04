@@ -18,9 +18,7 @@ import {
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
@@ -28,11 +26,17 @@ import {
 import { Input } from "@/components/ui/input"
 import { formSchema } from "./FormCreateInterview.form"
 import { difficulties, roles } from "./FormCreateInterview.data"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { Interview } from "@/lib/generated/prisma/client"
 
 
 
 export default function FormCreateInterview() {
-    // 1. Define your form.
+
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -42,8 +46,22 @@ export default function FormCreateInterview() {
         },
     })
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setIsLoading(true);
+
+        try {
+            const response = await fetch("/api/create-interview", {
+                method: "POST",
+                body: JSON.stringify(values)
+            });
+            const createdInterview: Interview = await response.json();
+            
+            router.push(`/interview/${createdInterview.id}`);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -73,6 +91,7 @@ export default function FormCreateInterview() {
                             <Select
                                 onValueChange={field.onChange}
                                 defaultValue={field.value}
+                                value={field.value}
                             >
                                 <FormControl>
                                     <SelectTrigger className="w-full">
@@ -95,19 +114,21 @@ export default function FormCreateInterview() {
                                 </SelectContent>
 
                             </Select>
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
 
                 <FormField
                     control={form.control}
-                    name="rol"
+                    name="level"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Select the difficulty</FormLabel>
                             <Select
                                 onValueChange={field.onChange}
                                 defaultValue={field.value}
+                                value={field.value}
                             >
                                 <FormControl>
                                     <SelectTrigger className="w-full">
@@ -129,11 +150,12 @@ export default function FormCreateInterview() {
                                 </SelectContent>
 
                             </Select>
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                <Button type="submit" className="w-full bg-indigo-800 font-bold py-3 px-6 rounded-lg hover:text-black">
+                <Button disabled={isLoading} type="submit" className="w-full bg-indigo-800 font-bold py-3 px-6 rounded-lg hover:text-black">
                     Start interview
                 </Button>
             </form>

@@ -83,3 +83,12 @@ npx prisma db push
 ```
 
 ## Check if the tables are created on the database
+
+## In case of error or missing data:
+
+Change the prisma schema and
+
+```
+npx prisma generate
+npx prisma db push
+```
