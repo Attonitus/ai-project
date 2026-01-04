@@ -83,7 +83,7 @@ export const InterviewList = () => {
                                 </span>
 
                                 <Button variant={"ghost"} asChild>
-                                    <Link href={`/interview/${interview.id}`}>
+                                    <Link href={`/dashboard/interview/${interview.id}`}>
                                         Details
                                     </Link>
                                 </Button>
