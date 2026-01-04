@@ -6,7 +6,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Headset } from "lucide-react"
+import { Headset, Zap } from "lucide-react"
 import FormCreateInterview from "./FormCreateInterview"
 
 export default function BtnCreateInterview() {
@@ -14,7 +14,7 @@ export default function BtnCreateInterview() {
         <Dialog>
             <DialogTrigger asChild>
                 <Button className="bg-indigo-800 font-bold py-3 px-6 rounded-lg hover:text-black hover:cursor-pointer">
-                    Create new interview
+                    Create new interview <Zap />
                 </Button>
             </DialogTrigger>
             <DialogContent>

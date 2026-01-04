@@ -3,16 +3,17 @@
 import BtnCreateInterview from "@/components/shared/BtnCreateInterview/BtnCreateInterview"
 import { Interview } from "@/lib/generated/prisma/client"
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react"
 import InterviewImage from "./InterviewImage";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useFetchUserStatus } from "@/hooks/use-fetch-user-status";
+import StripeDialogPayment from "@/components/shared/StripeDialogPayment";
 
 
 export const InterviewList = () => {
 
-    // const [interviews, setInterviews] = useState<Interview[]>();
+    const { hasPaid, hasUsedFreeTrial } = useFetchUserStatus();
 
     const { isPending, error, data } = useQuery<Interview[]>({
         queryKey: ['interviews'],
@@ -20,7 +21,7 @@ export const InterviewList = () => {
             fetch('/api/interviews').then((res) =>
                 res.json(),
             ),
-        staleTime: 1000 * 60 * 60
+        staleTime: 1000 * 60
     });
 
     const levelBadgeClasses: Record<string, string> = {
@@ -35,7 +36,12 @@ export const InterviewList = () => {
             <div className="mt-5 md:px-10 p-4 border border-white/10 rounded-md bg-white/10 backdrop-blur-lg">
                 <div className="flex justify-between items-center">
                     <h2 className="text-2xl font-semibold">Last interviews</h2>
-                    <BtnCreateInterview />
+                    {
+                        hasPaid || !hasUsedFreeTrial && <BtnCreateInterview />
+                    }
+                    {
+                        !hasPaid && hasUsedFreeTrial && <StripeDialogPayment />
+                    }
                 </div>
 
                 <div className="mt-4">
@@ -60,8 +66,8 @@ export const InterviewList = () => {
                     }
                     {
                         !error && data?.slice(0, 5).map(interview => (
-                            <div key={interview.id} 
-                            className=" grid grid-cols-1 gap-5 md:gap-0 md:grid-cols-[1fr_60%_1fr_1fr_1fr] items-center justify-between border-b pb-4 last:border-b-0 my-4">
+                            <div key={interview.id}
+                                className=" grid grid-cols-1 gap-5 md:gap-0 md:grid-cols-[1fr_60%_1fr_1fr_1fr] items-center justify-between border-b pb-4 last:border-b-0 my-4">
                                 <span className="text-left text-sm text-white-70">
                                     {new Date(interview.startedAt).toLocaleDateString()}
                                 </span>
