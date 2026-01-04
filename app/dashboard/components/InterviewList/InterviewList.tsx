@@ -36,12 +36,11 @@ export const InterviewList = () => {
             <div className="mt-5 md:px-10 p-4 border border-white/10 rounded-md bg-white/10 backdrop-blur-lg">
                 <div className="flex justify-between items-center">
                     <h2 className="text-2xl font-semibold">Last interviews</h2>
-                    {
-                        hasPaid || !hasUsedFreeTrial && <BtnCreateInterview />
-                    }
-                    {
-                        !hasPaid && hasUsedFreeTrial && <StripeDialogPayment />
-                    }
+                    {hasPaid && <BtnCreateInterview />}
+
+                    {!hasPaid && hasUsedFreeTrial && <StripeDialogPayment />}
+
+                    {!hasPaid && !hasUsedFreeTrial && <BtnCreateInterview />}
                 </div>
 
                 <div className="mt-4">

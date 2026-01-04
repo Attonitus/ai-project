@@ -3,20 +3,20 @@ import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 
-export async function POST(req: Request, {params}: {params: Promise<{id: string}>}){
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
 
-    const {id} = await params;
+    const { id } = await params;
 
     const transcript = await req.json();
     const user = await currentUser();
 
 
-    if(!user){
-        return new NextResponse("Unauthorized", {status: 401});
+    if (!user) {
+        return new NextResponse("Unauthorized", { status: 401 });
     }
 
     await prisma.interview.update({
-        where: {id},
+        where: { id },
         data: {
             completedAt: new Date(),
             transcript: transcript || []
@@ -24,10 +24,10 @@ export async function POST(req: Request, {params}: {params: Promise<{id: string}
     })
 
     await prisma.user.update({
-        where: {id: user.id},
-        data: {hasUsedFreeTrial: true}
+        where: { userId: user.id },
+        data: { hasUsedFreeTrial: true }
     })
 
-    return NextResponse.json({message: "Interview completed succesfully!"})
+    return NextResponse.json({ message: "Interview completed succesfully!" })
 
 }

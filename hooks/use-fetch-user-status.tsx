@@ -13,8 +13,8 @@ export const useFetchUserStatus = () => {
                 const res = await fetch("/api/user/status");
                 const json = await res.json();
 
-                setHasPaid(json.hasPaid);
-                setHasUsedFreeTrial(json.hasUsedFreeTrial);
+                setHasPaid(json?.hasPaid);
+                setHasUsedFreeTrial(json?.hasUsedFreeTrial);
             } catch (error) {
                 console.error("Error fetch user status", error);
             }

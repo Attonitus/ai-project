@@ -72,12 +72,11 @@ export const SidebarDashboard = () => {
 
             <SidebarContent>
                 <SidebarGroup>
-                    {
-                        hasPaid || !hasUsedFreeTrial && <BtnCreateInterview />
-                    }
-                    {
-                        !hasPaid && hasUsedFreeTrial && <StripeDialogPayment />
-                    }
+                    {hasPaid && <BtnCreateInterview />}
+
+                    {!hasPaid && hasUsedFreeTrial && <StripeDialogPayment />}
+
+                    {!hasPaid && !hasUsedFreeTrial && <BtnCreateInterview />}
                 </SidebarGroup>
 
                 <SidebarGroup>

@@ -12,12 +12,12 @@ export async function POST(req: Request){
             return new NextResponse("Unauthorized", {status: 401});
         }
 
-        let user = await prisma.user.findUnique({where: {id: userId}});
+        let user = await prisma.user.findUnique({where: {userId}});
 
         if(!user){
             user = await prisma.user.create({
                 data: {
-                    id: userId
+                    userId: userId
                 }
             })
         }
